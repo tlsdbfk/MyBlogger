@@ -1,20 +1,31 @@
 package com.hb.myblogger.board
 
+import RetrofitAPI
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.hb.myblogger.R
+import com.hb.myblogger.RetrofitAPI
 import com.hb.myblogger.databinding.ActivityBoardWriteBinding
+import com.hb.myblogger.flask.DataModel
+import com.hb.myblogger.flask.RetrofitAPI
 import com.hb.myblogger.utils.FBAuth
 import com.hb.myblogger.utils.FBRef
+import retrofit2.Call
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
 
 class BoardWriteActivity:AppCompatActivity() {
@@ -25,12 +36,19 @@ class BoardWriteActivity:AppCompatActivity() {
 
     private var isImageUpload = false
 
+    //flask 서버 연결 테스트
+    lateinit var mRetrofit : Retrofit // 사용할 레트로핏 객체입니다.
+    lateinit var mRetrofitAPI: RetrofitAPI // 레트로핏 api객체입니다.
+    lateinit var mCallTodoList : retrofit2.Call<JsonObject> // Json형식의 데이터를 요청하는 객체입니다.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //flask
+        setRetrofit()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_write)
 
-        binding.writeBtn.setOnClickListener {
+        binding.saveBtn.setOnClickListener {
 
             val title = binding.titleArea.text.toString()
             val content = binding.contentArea.text.toString()
@@ -61,6 +79,12 @@ class BoardWriteActivity:AppCompatActivity() {
             finish()
 
 
+        }
+
+        binding.getBtn.setOnClickListener {
+            binding.getBtn.visibility = View.INVISIBLE
+//            progressBar.visibility = View.VISIBLE
+            callTodoList()
         }
 
         binding.imageArea.setOnClickListener {
@@ -102,4 +126,51 @@ class BoardWriteActivity:AppCompatActivity() {
         }
 
     }
+
+    private fun setRetrofit(){
+        //레트로핏으로 가져올 url설정하고 세팅
+        mRetrofit = Retrofit
+            .Builder()
+            .baseUrl(getString(R.string.baseUrl))
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        //인터페이스로 만든 레트로핏 api요청 받는 것 변수로 등록
+        mRetrofitAPI = mRetrofit.create(RetrofitAPI::class.java)
+    }
+
+    // 리스트를 불러온다.
+    private fun callTodoList() {
+        mCallTodoList = mRetrofitAPI.getTodoList()
+        mCallTodoList.enqueue(mRetrofitCallback)//응답을 큐 대기열에 넣는다.
+    }
+
+    //http요청을 보냈고 이건 응답을 받을 콜벡메서드
+    private val mRetrofitCallback  = (object : retrofit2.Callback<JsonObject>{//Json객체를 응답받는 콜백 객체
+
+        //응답을 가져오는데 실패
+        override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+            t.printStackTrace()
+            Log.d(TAG, "에러입니다. => ${t.message.toString()}")
+            binding.pic1text.text = "에러\n" + t.message.toString()
+
+//            progressBar.visibility = View.GONE
+            binding.getBtn.visibility = View.VISIBLE
+        }
+        //응답을 가져오는데 성공 -> 성공한 반응 처리
+        override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+            val result = response.body()
+            Log.d(TAG, "결과는 => $result")
+
+            var mGson = Gson()
+            val dataParsed1 = mGson.fromJson(result, DataModel.TodoInfo1::class.java)
+            val dataParsed2 = mGson.fromJson(result, DataModel.TodoInfo2::class.java)
+            val dataParsed3 = mGson.fromJson(result, DataModel.TodoInfo3::class.java)
+
+            binding.pic1text.text = "해야할 일\n" + dataParsed1.todo1.task+"\n"+dataParsed2.todo2.task +"\n"+dataParsed3.todo3.task
+
+//            progressBar.visibility = View.GONE
+            binding.getBtn.visibility = View.VISIBLE
+        }
+    })
 }
