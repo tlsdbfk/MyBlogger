@@ -1,6 +1,6 @@
 package com.hb.myblogger.board
 
-import RetrofitAPI
+import com.hb.myblogger.RetrofitAPI
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -15,11 +15,9 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.hb.myblogger.DataModel
 import com.hb.myblogger.R
-import com.hb.myblogger.RetrofitAPI
 import com.hb.myblogger.databinding.ActivityBoardWriteBinding
-import com.hb.myblogger.flask.DataModel
-import com.hb.myblogger.flask.RetrofitAPI
 import com.hb.myblogger.utils.FBAuth
 import com.hb.myblogger.utils.FBRef
 import retrofit2.Call
