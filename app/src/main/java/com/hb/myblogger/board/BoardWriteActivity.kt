@@ -1,14 +1,18 @@
 package com.hb.myblogger.board
 
+import android.content.Context
 import com.hb.myblogger.RetrofitAPI
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.firebase.ktx.Firebase
@@ -20,11 +24,15 @@ import com.hb.myblogger.R
 import com.hb.myblogger.databinding.ActivityBoardWriteBinding
 import com.hb.myblogger.utils.FBAuth
 import com.hb.myblogger.utils.FBRef
-import retrofit2.Call
-import retrofit2.Response
-import retrofit2.Retrofit
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okio.BufferedSink
+import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.io.ByteArrayOutputStream
+import java.io.File
 
 class BoardWriteActivity:AppCompatActivity() {
 
@@ -90,7 +98,6 @@ class BoardWriteActivity:AppCompatActivity() {
             startActivityForResult(gallery, 100)
             isImageUpload = true
         }
-
     }
 
     private fun imageUpload(key : String){
@@ -115,22 +122,24 @@ class BoardWriteActivity:AppCompatActivity() {
             // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
             // ...
         }
+
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == RESULT_OK && requestCode == 100) {
+        if (resultCode == RESULT_OK && requestCode == 100) {
             binding.imageArea.setImageURI(data?.data)
         }
 
     }
-
     private fun setRetrofit(){
         //레트로핏으로 가져올 url설정하고 세팅
         mRetrofit = Retrofit
             .Builder()
             .baseUrl(getString(R.string.baseUrl))
             .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(ScalarsConverterFactory.create())
             .build()
 
         //인터페이스로 만든 레트로핏 api요청 받는 것 변수로 등록
@@ -167,8 +176,49 @@ class BoardWriteActivity:AppCompatActivity() {
 
             binding.pic1text.text = "해야할 일\n" + dataParsed1.todo1.task+"\n"+dataParsed2.todo2.task +"\n"+dataParsed3.todo3.task
 
-//            progressBar.visibility = View.GONE
             binding.getBtn.visibility = View.VISIBLE
         }
     })
+
+    //이미지 전송
+
+    // 절대경로 변환
+    fun absolutelyPath(path: Uri?, context : Context): String {
+        var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        var c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
+        var index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        c?.moveToFirst()
+
+        var result = c?.getString(index!!)
+
+        return result!!
+    }
+
+    //웹서버로 이미지전송
+    fun sendImage(image : MultipartBody.Part) {
+       // val service = RetrofitSetting.createBaseService(RetrofitPath::class.java) //레트로핏 통신 설정
+        val call = mRetrofitAPI.profileSend(image)!! //통신 API 패스 설정
+
+        Log.d(TAG, "삐삐삐삐 성공3")
+        call.enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                if (response?.isSuccessful) {
+                    Log.d("로그 ",""+response?.body().toString())
+                    Toast.makeText(applicationContext,"통신성공",Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    Toast.makeText(applicationContext,"통신실패",Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.d("로그 ",t.message.toString())
+            }
+        })
+    }
+
+
+
 }
+
+
