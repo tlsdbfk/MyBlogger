@@ -19,6 +19,7 @@ import com.google.firebase.database.ValueEventListener
 import com.hb.myblogger.R
 import com.hb.myblogger.board.BoardWriteActivity
 import com.hb.myblogger.databinding.FragmentHomeBinding
+import com.hb.myblogger.utils.FBAuth
 import com.hb.myblogger.utils.FBRef
 
 class HomeFragment : Fragment() {
@@ -76,7 +77,7 @@ class HomeFragment : Fragment() {
 
                 for (dataModel in dataSnapshot.children) {
 
-                    Log.d(TAG, dataModel.toString())
+                    Log.d(TAG, "로그"+ dataModel.toString())
 //                    dataModel.key
 
                     val item = dataModel.getValue(BoardModel::class.java)

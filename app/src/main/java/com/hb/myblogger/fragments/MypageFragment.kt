@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.google.firebase.database.DataSnapshot
@@ -20,6 +21,7 @@ import com.hb.myblogger.board.BoardWriteActivity
 import com.hb.myblogger.databinding.FragmentHomeBinding
 import com.hb.myblogger.databinding.FragmentMypageBinding
 import com.hb.myblogger.myboard.MyBoardListLVAdapter
+import com.hb.myblogger.utils.FBAuth
 import com.hb.myblogger.utils.FBRef
 
 class MypageFragment : Fragment() {
@@ -81,8 +83,17 @@ class MypageFragment : Fragment() {
 //                    dataModel.key
 
                     val item = dataModel.getValue(BoardModel::class.java)
-                    boardDataList.add(item!!)
-                    boardKeyList.add(dataModel.key.toString())
+
+                    //내가 쓴 글 모아보기
+                    val myUid = FBAuth.getUid()
+                    val writerUid = item?.uid
+
+                    if(myUid.equals(writerUid)) {
+                        boardDataList.add(item!!)
+                        boardKeyList.add(dataModel.key.toString())
+                    }
+                    else{}
+
 
                 }
                 boardKeyList.reverse()

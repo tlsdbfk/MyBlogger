@@ -37,6 +37,7 @@ class BoardInsideActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_inside)
 
         key = intent.getStringExtra("key").toString()
+
         getBoardData(key)
         getImageData(key)
 

@@ -6,8 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import androidx.core.view.isVisible
+import com.google.firebase.database.DataSnapshot
 import com.hb.myblogger.R
 import com.hb.myblogger.board.BoardModel
+import com.hb.myblogger.utils.FBAuth
 
 class MyBoardListLVAdapter(val boardList : MutableList<BoardModel>) : BaseAdapter() {
 
@@ -32,6 +35,10 @@ class MyBoardListLVAdapter(val boardList : MutableList<BoardModel>) : BaseAdapte
             view = LayoutInflater.from(parent?.context).inflate(R.layout.board_list_item, parent, false)
 
         }
+
+        val myUid = FBAuth.getUid()
+        //val writerUid = dataModel.uid
+
 
         val title = view?.findViewById<TextView>(R.id.titleArea)
         val content = view?.findViewById<TextView>(R.id.contentArea)

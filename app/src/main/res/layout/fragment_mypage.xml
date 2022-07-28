@@ -26,7 +26,6 @@
                 <ImageView
                     android:id="@+id/homeTap"
                     android:layout_weight="1"
-                    android:background="@color/mainColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@drawable/home"/>
@@ -39,6 +38,7 @@
                 <ImageView
                     android:id="@+id/myPageTap"
                     android:layout_weight="1"
+                    android:background="@color/mainColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@drawable/mypage"/>
