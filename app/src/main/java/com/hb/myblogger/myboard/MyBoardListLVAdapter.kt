@@ -36,10 +36,6 @@ class MyBoardListLVAdapter(val boardList : MutableList<BoardModel>) : BaseAdapte
 
         }
 
-        val myUid = FBAuth.getUid()
-        //val writerUid = dataModel.uid
-
-
         val title = view?.findViewById<TextView>(R.id.titleArea)
         val content = view?.findViewById<TextView>(R.id.contentArea)
         val time = view?.findViewById<TextView>(R.id.timeArea)
