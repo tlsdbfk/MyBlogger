@@ -42,16 +42,9 @@ class BoardWriteActivity:AppCompatActivity() {
 
     private var isImageUpload = false
 
-    //flask 서버 연결 테스트
-    lateinit var mRetrofit : Retrofit // 사용할 레트로핏 객체입니다.
-    lateinit var mRetrofitAPI: RetrofitAPI // 레트로핏 api객체입니다.
-    lateinit var mCallTodoList : retrofit2.Call<JsonObject> // Json형식의 데이터를 요청하는 객체입니다.
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //flask
-        setRetrofit()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_write)
 
         binding.saveBtn.setOnClickListener {
@@ -89,8 +82,7 @@ class BoardWriteActivity:AppCompatActivity() {
 
         binding.getBtn.setOnClickListener {
             binding.getBtn.visibility = View.INVISIBLE
-//            progressBar.visibility = View.VISIBLE
-            callTodoList()
+
         }
 
         binding.imageArea.setOnClickListener {
@@ -100,6 +92,7 @@ class BoardWriteActivity:AppCompatActivity() {
         }
     }
 
+    //글 저장하는 곳에 사진 저장하는 함수(건들지마)
     private fun imageUpload(key : String){
         // Get the data from an ImageView as bytes
 
@@ -124,8 +117,7 @@ class BoardWriteActivity:AppCompatActivity() {
         }
 
     }
-
-
+    //사진 저장하기 전에 보여주는 함수(건들지마)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == 100) {
@@ -133,89 +125,10 @@ class BoardWriteActivity:AppCompatActivity() {
         }
 
     }
-    private fun setRetrofit(){
-        //레트로핏으로 가져올 url설정하고 세팅
-        mRetrofit = Retrofit
-            .Builder()
-            .baseUrl(getString(R.string.baseUrl))
-            .addConverterFactory(GsonConverterFactory.create())
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .build()
 
-        //인터페이스로 만든 레트로핏 api요청 받는 것 변수로 등록
-        mRetrofitAPI = mRetrofit.create(RetrofitAPI::class.java)
-    }
 
-    // 리스트를 불러온다.
-    private fun callTodoList() {
-        mCallTodoList = mRetrofitAPI.getTodoList()
-        mCallTodoList.enqueue(mRetrofitCallback)//응답을 큐 대기열에 넣는다.
-    }
 
-    //http요청을 보냈고 이건 응답을 받을 콜벡메서드
-    private val mRetrofitCallback  = (object : retrofit2.Callback<JsonObject>{//Json객체를 응답받는 콜백 객체
 
-        //응답을 가져오는데 실패
-        override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-            t.printStackTrace()
-            Log.d(TAG, "에러입니다. => ${t.message.toString()}")
-            binding.pic1text.text = "에러\n" + t.message.toString()
-
-//            progressBar.visibility = View.GONE
-            binding.getBtn.visibility = View.VISIBLE
-        }
-        //응답을 가져오는데 성공 -> 성공한 반응 처리
-        override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-            val result = response.body()
-            Log.d(TAG, "결과는 => $result")
-
-            var mGson = Gson()
-            val dataParsed1 = mGson.fromJson(result, DataModel.TodoInfo1::class.java)
-            val dataParsed2 = mGson.fromJson(result, DataModel.TodoInfo2::class.java)
-            val dataParsed3 = mGson.fromJson(result, DataModel.TodoInfo3::class.java)
-
-            binding.pic1text.text = "해야할 일\n" + dataParsed1.todo1.task+"\n"+dataParsed2.todo2.task +"\n"+dataParsed3.todo3.task
-
-            binding.getBtn.visibility = View.VISIBLE
-        }
-    })
-
-    //이미지 전송
-
-    // 절대경로 변환
-    fun absolutelyPath(path: Uri?, context : Context): String {
-        var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
-        var c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
-        var index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        c?.moveToFirst()
-
-        var result = c?.getString(index!!)
-
-        return result!!
-    }
-
-    //웹서버로 이미지전송
-    fun sendImage(image : MultipartBody.Part) {
-       // val service = RetrofitSetting.createBaseService(RetrofitPath::class.java) //레트로핏 통신 설정
-        val call = mRetrofitAPI.profileSend(image)!! //통신 API 패스 설정
-
-        Log.d(TAG, "삐삐삐삐 성공3")
-        call.enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
-                if (response?.isSuccessful) {
-                    Log.d("로그 ",""+response?.body().toString())
-                    Toast.makeText(applicationContext,"통신성공",Toast.LENGTH_SHORT).show()
-                }
-                else {
-                    Toast.makeText(applicationContext,"통신실패",Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                Log.d("로그 ",t.message.toString())
-            }
-        })
-    }
 
 
 
