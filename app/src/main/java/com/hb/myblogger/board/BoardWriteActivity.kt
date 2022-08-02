@@ -1,5 +1,6 @@
 package com.hb.myblogger.board
 
+import android.content.ContentValues
 import android.content.Context
 import com.hb.myblogger.RetrofitAPI
 import android.content.Intent
@@ -19,6 +20,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.hb.imageup.RetrofitPath
+import com.hb.imageup.RetrofitSetting
 import com.hb.myblogger.DataModel
 import com.hb.myblogger.R
 import com.hb.myblogger.databinding.ActivityBoardWriteBinding
@@ -122,8 +125,52 @@ class BoardWriteActivity:AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == 100) {
             binding.imageArea.setImageURI(data?.data)
+
+            val imagePath = data?.data!!
+
+            val file = File(absolutelyPath(imagePath, this))
+            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            val body = MultipartBody.Part.createFormData("proFile", file.name, requestFile)
+
+            Log.d(ContentValues.TAG,file.name)
+
+            sendImage(body)
         }
 
+    }
+
+
+
+    fun absolutelyPath(path: Uri?, context : Context): String {
+        var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        var c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
+        var index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        c?.moveToFirst()
+
+        var result = c?.getString(index!!)
+
+        return result!!
+    }
+
+    fun sendImage(image : MultipartBody.Part) {
+        val service = RetrofitSetting.createBaseService(RetrofitPath::class.java) //레트로핏 통신 설정
+        val call = service.profileSend(image)!! //통신 API 패스 설정
+
+        call.enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                if (response?.isSuccessful) {
+                    Log.d("로그 ",""+response?.body().toString())
+                    Toast.makeText(applicationContext,"통신성공",Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    Toast.makeText(applicationContext,"통신실패",Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.d("로그 ",t.message.toString())
+            }
+        })
     }
 
 
