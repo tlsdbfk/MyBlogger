@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
@@ -17,6 +18,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.hb.myblogger.R
+import com.hb.myblogger.auth.IntroActivity
 import com.hb.myblogger.board.BoardInsideActivity
 import com.hb.myblogger.board.BoardListLVAdapter
 import com.hb.myblogger.board.BoardModel
@@ -56,6 +58,7 @@ class MypageFragment : Fragment() {
         val email = user?.email
 
         binding.myId.text = email
+
 
         binding.boardListView.setOnItemClickListener { parent, view, position, id ->
 

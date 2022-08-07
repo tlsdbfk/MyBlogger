@@ -88,7 +88,8 @@
                     android:id="@+id/contentArea"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:layout_margin="20dp"
+                    android:layout_margin="10dp"
+                    android:layout_marginLeft="20dp"
                     android:textSize="15dp"
                     android:background="@android:color/transparent"
                     android:hint="Your Caption here" />
@@ -98,6 +99,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:layout_margin="10dp"
+                    android:layout_marginLeft="20dp"
                     android:textSize="15dp"
                     android:background="@android:color/transparent"
                     android:textColor="#0692fd"
@@ -110,16 +112,6 @@
                     android:layout_margin="20dp"
                     android:background="@android:color/transparent" />
 
-                <!--                <Button-->
-                <!--                    android:id="@+id/getBtn"-->
-                <!--                    android:layout_width="300dp"-->
-                <!--                    android:layout_height="48dp"-->
-                <!--                    android:layout_gravity="center"-->
-                <!--                    android:layout_margin="100dp"-->
-                <!--                    android:background="@drawable/radius_btn_gray"-->
-                <!--                    android:text="글 불러오기"-->
-                <!--                    android:textColor="#000000"-->
-                <!--                    android:textStyle="bold" />-->
 
             </LinearLayout>
         </ScrollView>

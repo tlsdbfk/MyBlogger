@@ -6,4 +6,7 @@
     <item
         android:id="@+id/menu_del"
         android:title="삭제"/>
+    <item
+        android:id="@+id/menu_copy"
+        android:title="블로그로 옮기기"/>
 </menu>

@@ -1,6 +1,7 @@
 package com.hb.myblogger.board
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -65,7 +66,20 @@ class BoardInsideActivity : AppCompatActivity() {
                     intent.putExtra("key",key)
                     startActivity(intent)
                     return@setOnMenuItemClickListener true
-                }else ->{
+                }
+                //다른 앱으로 글 보내기
+                R.id.menu_copy -> {
+                    val sendIntent: Intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_TEXT, "${binding.contentArea.text}")
+                        type = "text/plain"
+                    }
+
+                    val shareIntent = Intent.createChooser(sendIntent, null)
+                    startActivity(shareIntent)
+                    return@setOnMenuItemClickListener true
+            }
+                else ->{
                 return@setOnMenuItemClickListener false
             }
             }
