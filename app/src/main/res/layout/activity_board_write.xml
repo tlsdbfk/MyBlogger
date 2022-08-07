@@ -89,6 +89,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_margin="20dp"
+                    android:textSize="15dp"
                     android:background="@android:color/transparent"
                     android:hint="Your Caption here" />
 
@@ -97,6 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:layout_margin="10dp"
+                    android:textSize="15dp"
                     android:background="@android:color/transparent"
                     android:textColor="#0692fd"
                     android:hint="Your Hashtag here" />

@@ -10,9 +10,12 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 import com.hb.myblogger.R
 import com.hb.myblogger.board.BoardInsideActivity
 import com.hb.myblogger.board.BoardListLVAdapter
@@ -30,7 +33,7 @@ class MypageFragment : Fragment() {
     private val boardKeyList = mutableListOf<String>()
 
     private val TAG = MypageFragment::class.java.simpleName
-
+    private lateinit var auth: FirebaseAuth
     private lateinit var myboardRVAdapter : MyBoardListLVAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +51,11 @@ class MypageFragment : Fragment() {
         myboardRVAdapter = MyBoardListLVAdapter(boardDataList)
         binding.boardListView.adapter = myboardRVAdapter
 
+
+        val user= Firebase.auth.currentUser
+        val email = user?.email
+
+        binding.myId.text = email
 
         binding.boardListView.setOnItemClickListener { parent, view, position, id ->
 
