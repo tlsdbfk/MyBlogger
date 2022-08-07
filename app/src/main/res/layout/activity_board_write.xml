@@ -9,7 +9,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="600dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -25,15 +25,15 @@
                         android:layout_height="match_parent">
 
                         <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="50dp"
+                            android:layout_marginRight="50dp"
+                            android:gravity="center"
                             android:text="글쓰기 page"
                             android:textColor="@color/black"
                             android:textSize="20sp"
-                            android:textStyle="bold"
-                            android:layout_width="match_parent"
-                            android:layout_marginRight="50dp"
-                            android:layout_marginLeft="50dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center"/>
+                            android:textStyle="bold" />
 
                         <ImageButton
                             android:id="@+id/saveBtn"
@@ -53,37 +53,22 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="#000000"/>
+                    android:background="#000000" />
 
                 <EditText
                     android:id="@+id/titleArea"
-                    android:layout_margin="20dp"
                     android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_margin="20dp"
                     android:background="@android:color/transparent"
-                    android:hint="제목을 입력해주세요"
-                    android:layout_height="60dp"/>
+                    android:hint="제목을 입력해주세요" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="#000000"/>
-
-                <EditText
-                    android:id="@+id/contentArea"
-                    android:layout_margin="20dp"
-                    android:layout_width="match_parent"
-                    android:hint="내용을 입력해주세요"
-                    android:background="@android:color/transparent"
-                    android:layout_height="60dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="#000000"/>
+                    android:background="#000000" />
 
                 <ImageView
                     android:id="@+id/imageArea"
@@ -92,25 +77,60 @@
                     android:layout_marginTop="20dp"
                     android:src="@drawable/bring_photo" />
 
-                <TextView
-                    android:id="@+id/pic1text"
-                    android:layout_margin="20dp"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:background="@android:color/transparent"
-                    android:layout_height="60dp"/>
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="#000000" />
 
-                <Button
-                    android:id="@+id/getBtn"
-                    android:layout_width="300dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="100dp"
-                    android:background="@drawable/radius_btn_gray"
-                    android:text="글 불러오기"
-                    android:textColor="#000000"
-                    android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/contentArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_margin="20dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Your Caption here" />
+
+                <EditText
+                    android:id="@+id/HashtagArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"
+                    android:background="@android:color/transparent"
+                    android:textColor="#0692fd"
+                    android:hint="Your Hashtag here" />
+
+                <TextView
+                    android:id="@+id/ErrorMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_margin="20dp"
+                    android:background="@android:color/transparent" />
+
+                <!--                <Button-->
+                <!--                    android:id="@+id/getBtn"-->
+                <!--                    android:layout_width="300dp"-->
+                <!--                    android:layout_height="48dp"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:layout_margin="100dp"-->
+                <!--                    android:background="@drawable/radius_btn_gray"-->
+                <!--                    android:text="글 불러오기"-->
+                <!--                    android:textColor="#000000"-->
+                <!--                    android:textStyle="bold" />-->
 
             </LinearLayout>
         </ScrollView>
+
+        <Button
+            android:id="@+id/getBtn"
+            android:layout_width="300dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/radius_btn_gray"
+            android:text="글 불러오기"
+            android:textColor="#000000"
+            android:textStyle="bold" />
     </LinearLayout>
 </layout>

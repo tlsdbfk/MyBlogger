@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
 object RetrofitSetting {
-    val API_BASE_URL = "http://192.168.219.103:8080/"
+    val API_BASE_URL = "http://192.168.219.102:8080/"
     val httpClient = OkHttpClient.Builder()
 
     val baseBuilder = Retrofit.Builder()

@@ -38,8 +38,10 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".board.BoardInsideActivity"/>
-        <activity android:name=".board.BoardWriteActivity"/>
-        <activity android:name=".board.BoardEditActivity"/>
+        <activity android:name=".board.BoardWriteActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".board.BoardEditActivity"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

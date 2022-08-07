@@ -17,17 +17,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/titleArea"
-                android:text="title"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_width="match_parent"
-                android:layout_marginRight="50dp"
-                android:layout_marginLeft="50dp"
-                android:layout_height="match_parent"
-                android:gravity="center"/>
+                <TextView
+                    android:id="@+id/titleArea"
+                    android:text="title"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"/>
 
                 <ImageView
                     android:id="@+id/blogSettingIcon"
@@ -60,22 +60,21 @@
             android:layout_margin="10dp"
             android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/textArea"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_margin="20dp"
-            android:textColor="@color/black"
-            android:text="여기는 내용 영역"
-            android:background="@drawable/radius_btn"
-            android:padding="10dp"/>
-
-
         <ImageView
             android:id="@+id/getImageArea"
             android:layout_margin="30dp"
             android:layout_width="match_parent"
             android:layout_height="300dp"/>
+
+        <TextView
+            android:id="@+id/textArea"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="20dp"
+            android:textColor="@color/black"
+            android:text="여기는 내용 영역"
+            android:background="@drawable/radius_btn"
+            android:padding="10dp"/>
 
     </LinearLayout>
 
