@@ -53,6 +53,7 @@ class BoardEditActivity : AppCompatActivity() {
             .setValue(
                 BoardModel(binding.titleArea.text.toString(),
                     binding.contentArea.text.toString(),
+                    binding.hashArea.text.toString(),
                     writerUid,
                     FBAuth.getTime())
             )
@@ -92,6 +93,7 @@ class BoardEditActivity : AppCompatActivity() {
                 val dataModel = dataSnapshot.getValue(BoardModel::class.java)
                 binding.titleArea.setText(dataModel?.title)
                 binding.contentArea.setText(dataModel?.content)
+                binding.hashArea.setText(dataModel?.hashtag)
                 writerUid = dataModel!!.uid
 
             }

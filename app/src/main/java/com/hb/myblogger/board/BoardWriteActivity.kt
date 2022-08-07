@@ -62,6 +62,7 @@ class BoardWriteActivity:AppCompatActivity() {
 
             val title = binding.titleArea.text.toString()
             val content = binding.contentArea.text.toString()
+            val hashtag = binding.HashtagArea.text.toString()
             val uid = FBAuth.getUid()
             val time = FBAuth.getTime()
 
@@ -73,7 +74,7 @@ class BoardWriteActivity:AppCompatActivity() {
 
             FBRef.boardRef
                 .child(key)
-                .setValue(BoardModel(title, content, uid, time))
+                .setValue(BoardModel(title, content,hashtag, uid, time))
 
             Toast.makeText(this, "게시글 입력 완료", Toast.LENGTH_LONG).show()
 

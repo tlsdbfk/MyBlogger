@@ -51,13 +51,12 @@
                     android:layout_marginRight="20dp"
                     android:background="#000000"/>
 
-                <EditText
-                    android:id="@+id/contentArea"
-                    android:layout_margin="20dp"
+                <ImageView
+                    android:id="@+id/imageArea"
+                    android:src="@drawable/bring_photo"
+                    android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
-                    android:hint="내용을 입력해주세요"
-                    android:background="@android:color/transparent"
-                    android:layout_height="60dp"/>
+                    android:layout_height="wrap_content"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -66,12 +65,21 @@
                     android:layout_marginRight="20dp"
                     android:background="#000000"/>
 
-                <ImageView
-                    android:id="@+id/imageArea"
-                    android:src="@drawable/bring_photo"
-                    android:layout_marginTop="20dp"
+                <EditText
+                    android:id="@+id/contentArea"
+                    android:layout_margin="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:hint="내용을 입력해주세요"
+                    android:background="@android:color/transparent"
+                    android:layout_height="60dp"/>
+
+                <EditText
+                    android:id="@+id/hashArea"
+                    android:layout_margin="10dp"
+                    android:layout_width="match_parent"
+                    android:hint="해시태그를 입력해주세요"
+                    android:background="@android:color/transparent"
+                    android:layout_height="150dp"/>
 
                 <Button
                     android:id="@+id/editBtn"
