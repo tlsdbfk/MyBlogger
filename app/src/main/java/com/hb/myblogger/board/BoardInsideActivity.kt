@@ -1,9 +1,14 @@
 package com.hb.myblogger.board
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.media.Image
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.ImageView
@@ -22,7 +27,13 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.hb.myblogger.utils.FBAuth
+import java.io.ByteArrayOutputStream
 import java.lang.Exception
+import java.util.*
+import android.provider.MediaStore.Images
+import android.os.StrictMode
+import android.os.StrictMode.VmPolicy
+
 
 class BoardInsideActivity : AppCompatActivity() {
 
@@ -45,6 +56,8 @@ class BoardInsideActivity : AppCompatActivity() {
         binding.blogSettingIcon.setOnClickListener {
             showMenu()
         }
+        val builder = VmPolicy.Builder()
+        StrictMode.setVmPolicy(builder.build())
 
     }
 
@@ -69,14 +82,26 @@ class BoardInsideActivity : AppCompatActivity() {
                 }
                 //다른 앱으로 글 보내기
                 R.id.menu_copy -> {
-                    val sendIntent: Intent = Intent().apply {
+                    //글
+//                    val sendIntent: Intent = Intent().apply {
+//                        action = Intent.ACTION_SEND
+//                        putExtra(Intent.EXTRA_TEXT, "${binding.contentArea.text}\n\n${binding.hashArea.text}")
+//                        type = "*/*"
+//                        Log.d(TAG, "삭제 완료")
+//                    }
+//
+//                    val shareIntent = Intent.createChooser(sendIntent, null)
+//                    startActivity(shareIntent)
+                  //  이미지
+                    val shareIntent: Intent = Intent().apply {
                         action = Intent.ACTION_SEND
-                        putExtra(Intent.EXTRA_TEXT, "${binding.contentArea.text}")
-                        type = "text/plain"
+                        val bitmap = (binding.getImageArea.drawable as BitmapDrawable).bitmap
+                        putExtra(Intent.EXTRA_TEXT, "\n${binding.contentArea.text}\n\n${binding.hashArea.text}")
+                        putExtra(Intent.EXTRA_STREAM, getImageUri(getApplicationContext(), bitmap))
+                        setPackage("com.nhn.android.blog");
+                        type = "image/*"
                     }
-
-                    val shareIntent = Intent.createChooser(sendIntent, null)
-                    startActivity(shareIntent)
+                    startActivity(Intent.createChooser(shareIntent, "send"))
                     return@setOnMenuItemClickListener true
             }
                 else ->{
@@ -86,6 +111,12 @@ class BoardInsideActivity : AppCompatActivity() {
         }
     }
 
+    fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path = Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
+        return Uri.parse(path)
+    }
 
     private fun getImageData(key : String){
 
