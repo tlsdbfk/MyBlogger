@@ -86,7 +86,7 @@ class BoardInsideActivity : AppCompatActivity() {
 //                    val sendIntent: Intent = Intent().apply {
 //                        action = Intent.ACTION_SEND
 //                        putExtra(Intent.EXTRA_TEXT, "${binding.contentArea.text}\n\n${binding.hashArea.text}")
-//                        type = "*/*"
+//                        type = "text/plain"
 //                        Log.d(TAG, "삭제 완료")
 //                    }
 //
@@ -101,7 +101,7 @@ class BoardInsideActivity : AppCompatActivity() {
                         setPackage("com.nhn.android.blog");
                         type = "image/*"
                     }
-                    startActivity(Intent.createChooser(shareIntent, "send"))
+                    startActivity(Intent.createChooser(shareIntent, null))
                     return@setOnMenuItemClickListener true
             }
                 else ->{
