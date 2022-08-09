@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.media.Image
 import android.net.Uri
+import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -33,6 +34,10 @@ import java.util.*
 import android.provider.MediaStore.Images
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
+import com.hb.myblogger.MainActivity
+
+
+
 
 
 class BoardInsideActivity : AppCompatActivity() {
@@ -89,19 +94,19 @@ class BoardInsideActivity : AppCompatActivity() {
 //                        type = "text/plain"
 //                        Log.d(TAG, "삭제 완료")
 //                    }
-//
 //                    val shareIntent = Intent.createChooser(sendIntent, null)
 //                    startActivity(shareIntent)
                   //  이미지
-                    val shareIntent: Intent = Intent().apply {
-                        action = Intent.ACTION_SEND
-                        val bitmap = (binding.getImageArea.drawable as BitmapDrawable).bitmap
-                        putExtra(Intent.EXTRA_TEXT, "\n${binding.contentArea.text}\n\n${binding.hashArea.text}")
-                        putExtra(Intent.EXTRA_STREAM, getImageUri(getApplicationContext(), bitmap))
-                        setPackage("com.nhn.android.blog");
-                        type = "image/*"
-                    }
-                    startActivity(Intent.createChooser(shareIntent, null))
+//                    val shareIntent: Intent = Intent().apply {
+//                        action = Intent.ACTION_SEND
+//                        val bitmap = (binding.getImageArea.drawable as BitmapDrawable).bitmap
+//                        putExtra(Intent.EXTRA_TEXT, "\n${binding.contentArea.text}\n\n${binding.hashArea.text}")
+//                        putExtra(Intent.EXTRA_STREAM, getImageUri(getApplicationContext(), bitmap))
+//                        setPackage("com.nhn.android.blog");
+//                        type = "image/*"
+//                    }
+//                    startActivity(Intent.createChooser(shareIntent, null))
+                    write()
                     return@setOnMenuItemClickListener true
             }
                 else ->{
@@ -111,6 +116,30 @@ class BoardInsideActivity : AppCompatActivity() {
         }
     }
 
+    private fun write() {
+        val version = 1
+        val title = "${binding.titleArea.text}"
+        val content = "${binding.contentArea.text}\n${binding.hashArea.text}"
+        val imageUrls: MutableList<String> = ArrayList()
+        //imageUrls.add("${Firebase.storage.reference.child(key + ".png").downloadUrl.result}")
+        val videoUrls: MutableList<String> = ArrayList()
+        //videoUrls.add("http://tvcast.naver.com/v/791662")
+        val ogTagUrls: MutableList<String> = ArrayList()
+        //ogTagUrls.add("http://m.naver.com")
+        val tags: MutableList<String> = ArrayList()
+        tags.add("MyBlogger")
+        NaverBlog(this@BoardInsideActivity).write(
+            version,
+            title,
+            content,
+            imageUrls,
+            videoUrls,
+            ogTagUrls,
+            tags
+        )
+    }
+
+    //비트맵에서 이미지URi 가져오는 코드
     fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
         val bytes = ByteArrayOutputStream()
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
@@ -137,7 +166,7 @@ class BoardInsideActivity : AppCompatActivity() {
             }
         })
 
-
+       // Log.d(TAG, "여기에요! + ${storageReference.downloadUrl.result}")
     }
 
 
