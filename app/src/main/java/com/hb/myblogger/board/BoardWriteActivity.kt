@@ -103,22 +103,23 @@ class BoardWriteActivity:AppCompatActivity() {
 
         override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
             val result = response.body()
-
-            val caption = result?.get("result_caption_str")?.getAsString()
-            val subject = result?.get("result_caption_sub")?.getAsString()
-            val geo0 = result?.get("geo0")?.getAsString()
-            val geo1 = result?.get("geo1")?.getAsString()
-            val geo2 = result?.get("geo2")?.getAsString()
-            val geo3 = result?.get("geo3")?.getAsString()
-            val geo4 = result?.get("geo4")?.getAsString()
-            val holiday = result?.get("holiday")?.getAsString()
-            val picture_date_ko = result?.get("picture_date_ko")?.getAsString()
-            val time_slot = result?.get("time_slot")?.getAsString()
-            val weather_rain = result?.get("weather_rain")?.getAsString()
-            val weather_ta = result?.get("weather_ta")?.getAsString()
-            contentArea.setText( "주어: $subject\n캡션: $caption" )
-            HashtagArea.setText("#$geo0 #$geo1 #$geo2 #$geo3 #$geo4 \n#$holiday #$picture_date_ko #$time_slot \n$weather_rain $weather_ta")
-            getBtn.visibility = View.VISIBLE
+            //?: "" null 일경우 ""로 대체!
+            val caption = result?.get("result_caption_str")?.getAsString() ?: ""
+            val subject = result?.get("result_caption_sub")?.getAsString() ?: ""
+            val geo0 = result?.get("geo0")?.getAsString() ?: ""
+            val geo1 = result?.get("geo1")?.getAsString() ?: ""
+            val geo2 = result?.get("geo2")?.getAsString() ?: ""
+            val geo3 = result?.get("geo3")?.getAsString() ?: ""
+            val geo4 = result?.get("geo4")?.getAsString() ?: ""
+            val holiday = result?.get("holiday")?.getAsString() ?: ""
+            val picture_date_ko = result?.get("picture_date_ko")?.getAsString() ?: ""
+            val time_slot = result?.get("time_slot")?.getAsString() ?: ""
+            val weather_rain = result?.get("weather_rain")?.getAsString() ?: ""
+            val weather_ta = result?.get("weather_ta")?.getAsString() ?: ""
+            contentArea.setText( "$subject, $caption" )
+            HashtagArea.setText("$geo0 $geo1 $geo2 $geo3 $geo4 \n$holiday $picture_date_ko $time_slot \n$weather_rain $weather_ta")
+            //getBtn.visibility = View.VISIBLE
+            ErrorMessage.visibility = View.INVISIBLE
         }
     })
 
