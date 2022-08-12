@@ -5,14 +5,19 @@ import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDialog
 import androidx.databinding.DataBindingUtil
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -40,6 +45,8 @@ class BoardWriteActivity:AppCompatActivity() {
 
     lateinit var mCallTodoList : retrofit2.Call<JsonObject>
 
+    private lateinit var progressDialog: AppCompatDialog //서버 로딩 표시
+
     private var isImageUpload = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +61,7 @@ class BoardWriteActivity:AppCompatActivity() {
         }
 
         binding.getBtn.setOnClickListener {
-            binding.getBtn.visibility = View.INVISIBLE
+            //binding.getBtn.visibility = View.INVISIBLE
             callTodoList()
         }
 
@@ -88,6 +95,7 @@ class BoardWriteActivity:AppCompatActivity() {
 
     //서버로부터 이미지 캡션 받아오기
     private fun callTodoList() {
+        progressON()
         mCallTodoList = RetrofitSetting.createBaseService(RetrofitPath::class.java).getCaption() // RetrofitAPI에서 Json객체 요청을 반환하는 메서드를 불러옵니다.
         mCallTodoList.enqueue(mRetrofitCallback) // 콜백, 즉 응답들을 큐에 넣어 대기시켜놓습니다. 응답이 생기면 뱉어내는거죠.
     }
@@ -116,6 +124,7 @@ class BoardWriteActivity:AppCompatActivity() {
             val time_slot = result?.get("time_slot")?.getAsString() ?: ""
             val weather_rain = result?.get("weather_rain")?.getAsString() ?: ""
             val weather_ta = result?.get("weather_ta")?.getAsString() ?: ""
+            progressOFF()
             contentArea.setText( "$subject, $caption" )
             HashtagArea.setText("$geo0 $geo1 $geo2 $geo3 $geo4 \n$holiday $picture_date_ko $time_slot \n$weather_rain $weather_ta")
             //getBtn.visibility = View.VISIBLE
@@ -198,6 +207,27 @@ class BoardWriteActivity:AppCompatActivity() {
                 Log.d("로그 ",t.message.toString())
             }
         })
+    }
+
+    fun progressON(){
+        progressDialog = AppCompatDialog(this)
+        progressDialog.setCancelable(false)
+        progressDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        progressDialog.setContentView(R.layout.progress_loading)
+        progressDialog.show()
+        var img_loading_framge = progressDialog.findViewById<ImageView>(R.id.iv_frame_loading)
+        var frameAnimation = img_loading_framge?.getBackground() as AnimationDrawable
+        img_loading_framge?.post(object : Runnable{
+            override fun run() {
+                frameAnimation.start()
+            }
+
+        })
+    }
+    fun progressOFF(){
+        if(progressDialog != null && progressDialog.isShowing()){
+            progressDialog.dismiss()
+        }
     }
 
 
