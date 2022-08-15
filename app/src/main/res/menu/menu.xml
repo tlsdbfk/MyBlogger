@@ -7,6 +7,9 @@
         android:id="@+id/menu_del"
         android:title="삭제"/>
     <item
-        android:id="@+id/menu_copy"
-        android:title="블로그로 옮기기"/>
+        android:id="@+id/menu_blog"
+        android:title="블로그에 쓰기"/>
+    <item
+        android:id="@+id/menu_insta"
+        android:title="인스타에 쓰기"/>
 </menu>

@@ -86,29 +86,23 @@ class BoardInsideActivity : AppCompatActivity() {
                     return@setOnMenuItemClickListener true
                 }
                 //다른 앱으로 글 보내기
-                R.id.menu_copy -> {
-                    //글
-//                    val sendIntent: Intent = Intent().apply {
-//                        action = Intent.ACTION_SEND
-//                        putExtra(Intent.EXTRA_TEXT, "${binding.contentArea.text}\n\n${binding.hashArea.text}")
-//                        type = "text/plain"
-//                        Log.d(TAG, "삭제 완료")
-//                    }
-//                    val shareIntent = Intent.createChooser(sendIntent, null)
-//                    startActivity(shareIntent)
-                  //  이미지
-//                    val shareIntent: Intent = Intent().apply {
-//                        action = Intent.ACTION_SEND
-//                        val bitmap = (binding.getImageArea.drawable as BitmapDrawable).bitmap
-//                        putExtra(Intent.EXTRA_TEXT, "\n${binding.contentArea.text}\n\n${binding.hashArea.text}")
-//                        putExtra(Intent.EXTRA_STREAM, getImageUri(getApplicationContext(), bitmap))
-//                        setPackage("com.nhn.android.blog");
-//                        type = "image/*"
-//                    }
-//                    startActivity(Intent.createChooser(shareIntent, null))
-                    write()
+                R.id.menu_blog -> {
+                    writeBlog()
                     return@setOnMenuItemClickListener true
             }
+                R.id.menu_insta -> {
+                    //  이미지
+                    val shareIntent: Intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        val bitmap = (binding.getImageArea.drawable as BitmapDrawable).bitmap
+                        putExtra(Intent.EXTRA_TEXT, "\n${binding.contentArea.text}\n\n${binding.hashArea.text}")
+                        //putExtra(Intent.EXTRA_STREAM, getImageUri(getApplicationContext(), bitmap))
+                        type = "text/plain"
+                        setPackage("com.instagram.android")
+                    }
+                    startActivity(Intent.createChooser(shareIntent, null))
+                    return@setOnMenuItemClickListener true
+                }
                 else ->{
                 return@setOnMenuItemClickListener false
             }
@@ -116,7 +110,7 @@ class BoardInsideActivity : AppCompatActivity() {
         }
     }
 
-    private fun write() {
+    private fun writeBlog() {
         val version = 1
         val title = "${binding.titleArea.text}"
         val content = "${binding.contentArea.text}\n${binding.hashArea.text}"
