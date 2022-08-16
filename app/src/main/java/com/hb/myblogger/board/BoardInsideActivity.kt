@@ -35,9 +35,7 @@ import android.provider.MediaStore.Images
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
 import com.hb.myblogger.MainActivity
-
-
-
+import java.net.URL
 
 
 class BoardInsideActivity : AppCompatActivity() {
@@ -111,11 +109,14 @@ class BoardInsideActivity : AppCompatActivity() {
     }
 
     private fun writeBlog() {
+    //    val bitmap = (binding.getImageArea.drawable as BitmapDrawable).bitmap
+    //    val uri_i = getImageUri(getApplicationContext(), bitmap)
+//        val url_i = URL(uri_i.toString())
         val version = 1
         val title = "${binding.titleArea.text}"
         val content = "${binding.contentArea.text}\n${binding.hashArea.text}"
         val imageUrls: MutableList<String> = ArrayList()
-        //imageUrls.add("${Firebase.storage.reference.child(key + ".png").downloadUrl.result}")
+        imageUrls.add("${Firebase.storage.reference.child(key + ".png").downloadUrl}")
         val videoUrls: MutableList<String> = ArrayList()
         //videoUrls.add("http://tvcast.naver.com/v/791662")
         val ogTagUrls: MutableList<String> = ArrayList()
