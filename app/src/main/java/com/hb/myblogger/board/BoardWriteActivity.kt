@@ -14,6 +14,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -53,6 +55,12 @@ class BoardWriteActivity:AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_write)
+
+        var spinner_data = listOf<String>("선택월", "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월")
+
+        var spinner_adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, spinner_data)
+
+        placeSpinner.adapter = spinner_adapter
 
         binding.imageArea.setOnClickListener {
             val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
@@ -126,7 +134,8 @@ class BoardWriteActivity:AppCompatActivity() {
             val weather_ta = result?.get("weather_ta")?.getAsString() ?: ""
             progressOFF()
             contentArea.setText( "$subject, $caption" )
-            HashtagArea.setText("$geo0 $geo1 $geo2 $geo3 $geo4 \n$holiday $picture_date_ko $time_slot \n$weather_rain $weather_ta")
+            PlaceEdit.setText("$geo0")
+            HashtagArea.setText("$holiday $picture_date_ko $time_slot \n$weather_rain $weather_ta")
             //getBtn.visibility = View.VISIBLE
             ErrorMessage.visibility = View.INVISIBLE
         }

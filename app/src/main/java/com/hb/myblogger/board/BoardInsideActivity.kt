@@ -109,9 +109,6 @@ class BoardInsideActivity : AppCompatActivity() {
     }
 
     private fun writeBlog() {
-    //    val bitmap = (binding.getImageArea.drawable as BitmapDrawable).bitmap
-    //    val uri_i = getImageUri(getApplicationContext(), bitmap)
-//        val url_i = URL(uri_i.toString())
         val version = 1
         val title = "${binding.titleArea.text}"
         val content = "${binding.contentArea.text}\n${binding.hashArea.text}"
