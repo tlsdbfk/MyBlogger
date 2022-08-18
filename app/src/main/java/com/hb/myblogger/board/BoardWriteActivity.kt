@@ -38,6 +38,10 @@ import okhttp3.RequestBody
 import retrofit2.*
 import java.io.ByteArrayOutputStream
 import java.io.File
+import com.hb.myblogger.MainActivity
+
+
+
 
 class BoardWriteActivity:AppCompatActivity() {
 
@@ -55,12 +59,6 @@ class BoardWriteActivity:AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_write)
-
-        var spinner_data = listOf<String>("선택월", "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월")
-
-        var spinner_adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, spinner_data)
-
-        placeSpinner.adapter = spinner_adapter
 
         binding.imageArea.setOnClickListener {
             val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
@@ -134,10 +132,25 @@ class BoardWriteActivity:AppCompatActivity() {
             val weather_ta = result?.get("weather_ta")?.getAsString() ?: ""
             progressOFF()
             contentArea.setText( "$subject, $caption" )
-            PlaceEdit.setText("$geo0")
+            //PlaceEdit.setText("$geo0")
             HashtagArea.setText("$holiday $picture_date_ko $time_slot \n$weather_rain $weather_ta")
+
             //getBtn.visibility = View.VISIBLE
             ErrorMessage.visibility = View.INVISIBLE
+
+            var spinner_data = listOf<String>("", "$geo0", "$geo1", "$geo2", "$geo3", "$geo4")
+
+            var spinner_adapter = ArrayAdapter(this@BoardWriteActivity, android.R.layout.simple_list_item_1, spinner_data)
+
+            placeSpinner.adapter = spinner_adapter
+
+            placeSpinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
+                    HashtagArea.setText(HashtagArea.getText().toString() + "${placeSpinner.getItemAtPosition(position)}");
+                }
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            })
+
         }
     })
 
