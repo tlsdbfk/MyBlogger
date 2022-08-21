@@ -7,16 +7,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.hb.myblogger.R
 import com.hb.myblogger.auth.IntroActivity
 import com.hb.myblogger.board.BoardInsideActivity
@@ -28,10 +36,12 @@ import com.hb.myblogger.databinding.FragmentMypageBinding
 import com.hb.myblogger.myboard.MyBoardListLVAdapter
 import com.hb.myblogger.utils.FBAuth
 import com.hb.myblogger.utils.FBRef
+import kotlinx.coroutines.NonDisposableHandle.parent
 
 class MypageFragment : Fragment() {
     private lateinit var binding : FragmentMypageBinding
     private val boardDataList = mutableListOf<BoardModel>()
+    private val boardImageList = mutableListOf<String>()
     private val boardKeyList = mutableListOf<String>()
 
     private val TAG = MypageFragment::class.java.simpleName
@@ -81,6 +91,7 @@ class MypageFragment : Fragment() {
         return binding.root
     }
 
+
     private fun getFBBoardData(){
 
         val postListener = object : ValueEventListener {
@@ -102,6 +113,7 @@ class MypageFragment : Fragment() {
                     if(myUid.equals(writerUid)) {
                         boardDataList.add(item!!)
                         boardKeyList.add(dataModel.key.toString())
+
                     }
                     else{}
 
@@ -124,7 +136,5 @@ class MypageFragment : Fragment() {
         FBRef.boardRef.addValueEventListener(postListener)
 
     }
-
-
 
 }

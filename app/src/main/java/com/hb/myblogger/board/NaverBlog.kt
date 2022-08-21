@@ -1,10 +1,11 @@
 package com.hb.myblogger.board
 
 import android.content.ActivityNotFoundException
+import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import org.json.JSONArray
 
@@ -32,12 +33,20 @@ class NaverBlog(private val context: Context) {
         imageUrls: List<String?>?,
         videoUrls: List<String?>?,
         ogTagUrls: List<String?>?,
-        tags: List<String?>?
+        tags: List<String?>?,
+        ImgUri:Uri?
     ) {
         val writeUri =
-            BlogUriBuilder.write(version, title, content, imageUrls, videoUrls, ogTagUrls, tags)
-        val writeIntent = Intent()
-        writeIntent.data = writeUri
+            BlogUriBuilder.write(version, title, content, imageUrls, videoUrls, ogTagUrls, tags, ImgUri)
+        //val writeIntent = Intent()
+        //writeIntent.data = writeUri
+        //writeIntent.putExtra(Intent.EXTRA_STREAM, ImgUri)
+
+        val writeIntent: Intent = Intent().apply {
+            data = writeUri
+
+        }
+        writeIntent.putExtra(Intent.EXTRA_STREAM, ImgUri)
         try {
             context.startActivity(writeIntent)
         } catch (e: ActivityNotFoundException) {
@@ -105,7 +114,8 @@ class NaverBlog(private val context: Context) {
             imageUrls: List<String?>?,
             videoUrls: List<String?>?,
             ogTagUrls: List<String?>?,
-            tags: List<String?>?
+            tags: List<String?>?,
+            ImgUri: Uri?
         ): Uri {
             val uriBuilder = Uri.Builder()
             uriBuilder.scheme(SCHEME_NAVERBLOG)
@@ -121,7 +131,9 @@ class NaverBlog(private val context: Context) {
             appendArrayQueryParameter(uriBuilder, QUERY_VIDEOURLS, videoUrls)
             appendArrayQueryParameter(uriBuilder, QUERY_OGTAGURLS, ogTagUrls)
             appendArrayQueryParameter(uriBuilder, QUERY_TAGS, tags)
+
             return uriBuilder.build()
+
         }
 
         fun appendArrayQueryParameter(

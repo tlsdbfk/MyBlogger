@@ -5,11 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
+import com.bumptech.glide.Glide
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.DataSnapshot
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.hb.myblogger.R
 import com.hb.myblogger.board.BoardModel
+import com.hb.myblogger.fragments.MypageFragment
 import com.hb.myblogger.utils.FBAuth
 
 class MyBoardListLVAdapter(val boardList : MutableList<BoardModel>) : BaseAdapter() {
@@ -44,6 +50,9 @@ class MyBoardListLVAdapter(val boardList : MutableList<BoardModel>) : BaseAdapte
         content!!.text = boardList[position].content
         time!!.text = boardList[position].time
 
+
         return view!!
+
     }
+
 }

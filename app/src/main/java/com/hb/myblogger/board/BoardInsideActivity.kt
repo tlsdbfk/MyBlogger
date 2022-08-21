@@ -1,7 +1,9 @@
 package com.hb.myblogger.board
 
+import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.media.Image
@@ -9,6 +11,7 @@ import android.net.Uri
 import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -34,8 +37,11 @@ import java.util.*
 import android.provider.MediaStore.Images
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
+import android.provider.DocumentsContract
 import com.hb.myblogger.MainActivity
 import java.net.URL
+import androidx.core.content.ContextCompat
+import java.io.File
 
 
 class BoardInsideActivity : AppCompatActivity() {
@@ -93,9 +99,9 @@ class BoardInsideActivity : AppCompatActivity() {
                     val shareIntent: Intent = Intent().apply {
                         action = Intent.ACTION_SEND
                         val bitmap = (binding.getImageArea.drawable as BitmapDrawable).bitmap
-                        putExtra(Intent.EXTRA_TEXT, "\n${binding.contentArea.text}\n\n${binding.hashArea.text}")
-                        //putExtra(Intent.EXTRA_STREAM, getImageUri(getApplicationContext(), bitmap))
-                        type = "text/plain"
+                        //putExtra(Intent.EXTRA_TEXT, "\n${binding.contentArea.text}\n\n${binding.hashArea.text}")
+                        putExtra(Intent.EXTRA_STREAM, getImageUri(getApplicationContext(), bitmap))
+                        type = "image/*"
                         setPackage("com.instagram.android")
                     }
                     startActivity(Intent.createChooser(shareIntent, null))
@@ -109,17 +115,22 @@ class BoardInsideActivity : AppCompatActivity() {
     }
 
     private fun writeBlog() {
+        val bitmap = (binding.getImageArea.drawable as BitmapDrawable).bitmap
+        val picUri = getImageUri(getApplicationContext(), bitmap)
         val version = 1
         val title = "${binding.titleArea.text}"
         val content = "${binding.contentArea.text}\n${binding.hashArea.text}"
         val imageUrls: MutableList<String> = ArrayList()
-        imageUrls.add("${Firebase.storage.reference.child(key + ".png").downloadUrl}")
+        val storageReference = Firebase.storage.reference.child(key + ".png")
+        print("here제발 ${storageReference.downloadUrl}")
+        //imageUrls.add("${storageReference.downloadUrl}")
         val videoUrls: MutableList<String> = ArrayList()
         //videoUrls.add("http://tvcast.naver.com/v/791662")
         val ogTagUrls: MutableList<String> = ArrayList()
         //ogTagUrls.add("http://m.naver.com")
         val tags: MutableList<String> = ArrayList()
         tags.add("MyBlogger")
+        val ImgUri = picUri
         NaverBlog(this@BoardInsideActivity).write(
             version,
             title,
@@ -127,7 +138,8 @@ class BoardInsideActivity : AppCompatActivity() {
             imageUrls,
             videoUrls,
             ogTagUrls,
-            tags
+            tags,
+            ImgUri
         )
     }
 
@@ -139,14 +151,14 @@ class BoardInsideActivity : AppCompatActivity() {
         return Uri.parse(path)
     }
 
+
+
     private fun getImageData(key : String){
 
         // Reference to an image file in Cloud Storage
         val storageReference = Firebase.storage.reference.child(key + ".png")
-
         // ImageView in your Activity
         val imageViewFromFB = binding.getImageArea
-
         storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
             if(task.isSuccessful) {
                 Glide.with(this)
@@ -158,7 +170,6 @@ class BoardInsideActivity : AppCompatActivity() {
             }
         })
 
-       // Log.d(TAG, "여기에요! + ${storageReference.downloadUrl.result}")
     }
 
 
