@@ -41,7 +41,6 @@ import kotlinx.coroutines.NonDisposableHandle.parent
 class MypageFragment : Fragment() {
     private lateinit var binding : FragmentMypageBinding
     private val boardDataList = mutableListOf<BoardModel>()
-    private val boardImageList = mutableListOf<String>()
     private val boardKeyList = mutableListOf<String>()
 
     private val TAG = MypageFragment::class.java.simpleName
@@ -105,6 +104,7 @@ class MypageFragment : Fragment() {
 //                    dataModel.key
 
                     val item = dataModel.getValue(BoardModel::class.java)
+                    val storageReference = Firebase.storage.reference.child(dataModel.key.toString() + ".png")
 
                     //내가 쓴 글 모아보기
                     val myUid = FBAuth.getUid()
@@ -113,14 +113,13 @@ class MypageFragment : Fragment() {
                     if(myUid.equals(writerUid)) {
                         boardDataList.add(item!!)
                         boardKeyList.add(dataModel.key.toString())
-
                     }
                     else{}
-
 
                 }
                 boardKeyList.reverse()
                 boardDataList.reverse()
+
                 myboardRVAdapter.notifyDataSetChanged()
 
                 Log.d(TAG, boardDataList.toString())

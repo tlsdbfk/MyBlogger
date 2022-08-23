@@ -23,7 +23,6 @@ import androidx.appcompat.app.AppCompatDialog
 import androidx.databinding.DataBindingUtil
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.hb.imageup.RetrofitPath
 import com.hb.imageup.RetrofitSetting
@@ -38,9 +37,6 @@ import okhttp3.RequestBody
 import retrofit2.*
 import java.io.ByteArrayOutputStream
 import java.io.File
-import com.hb.myblogger.MainActivity
-
-
 
 
 class BoardWriteActivity:AppCompatActivity() {
@@ -79,15 +75,16 @@ class BoardWriteActivity:AppCompatActivity() {
             val uid = FBAuth.getUid()
             val time = FBAuth.getTime()
 
+
             Log.d(TAG, title)
             Log.d(TAG, content)
 
             // 파이어베이스 store에 이미지를 저장할 때 이미지 이름을 문서의 key값으로 함
             val key = FBRef.boardRef.push().key.toString()
-
+            //val imgName = Firebase.storage.reference.child(key+".png")
             FBRef.boardRef
                 .child(key)
-                .setValue(BoardModel(title, content,hashtag, uid, time))
+                .setValue(BoardModel(title, content,hashtag, uid, time, key))
 
             Toast.makeText(this, "게시글 입력 완료", Toast.LENGTH_LONG).show()
 

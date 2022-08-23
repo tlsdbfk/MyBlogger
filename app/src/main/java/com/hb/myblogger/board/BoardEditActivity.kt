@@ -16,7 +16,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import java.lang.Exception
 
 class BoardEditActivity : AppCompatActivity() {
 
@@ -55,7 +54,8 @@ class BoardEditActivity : AppCompatActivity() {
                     binding.contentArea.text.toString(),
                     binding.hashArea.text.toString(),
                     writerUid,
-                    FBAuth.getTime())
+                    FBAuth.getTime(),
+                    key)
             )
 
         Toast.makeText(this, "수정완료", Toast.LENGTH_LONG).show()
