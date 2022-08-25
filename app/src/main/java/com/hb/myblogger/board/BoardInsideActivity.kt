@@ -52,7 +52,6 @@ class BoardInsideActivity : AppCompatActivity() {
 
     private lateinit var key:String
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_inside)
@@ -121,9 +120,12 @@ class BoardInsideActivity : AppCompatActivity() {
         val title = "${binding.titleArea.text}"
         val content = "${binding.contentArea.text}\n${binding.hashArea.text}"
         val imageUrls: MutableList<String> = ArrayList()
-        val storageReference = Firebase.storage.reference.child(key + ".png")
-        print("here제발 ${storageReference.downloadUrl}")
-        //imageUrls.add("${storageReference.downloadUrl}")
+
+        val imageURL = Firebase.storage.reference.child(key + ".png")
+
+//https://firebasestorage.googleapis.com/v0/b/my-blogger-3f4bc.appspot.com/o/-NAAmYStqPUP6Ea5v6cB.png?alt=media&token=4bcff3e8-8564-454f-816b-a00dfd6aed8a
+        print("here키값 $key\n")
+        imageUrls.add("https://firebasestorage.googleapis.com/v0/b/my-blogger-3f4bc.appspot.com/o/${key}.png?alt=media&token=4bcff3e8-8564-454f-816b-a00dfd6aed8a")
         val videoUrls: MutableList<String> = ArrayList()
         //videoUrls.add("http://tvcast.naver.com/v/791662")
         val ogTagUrls: MutableList<String> = ArrayList()
@@ -160,12 +162,10 @@ class BoardInsideActivity : AppCompatActivity() {
         // ImageView in your Activity
         val imageViewFromFB = binding.getImageArea
         storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
-
             if(task.isSuccessful) {
                 Glide.with(this)
                     .load(task.result)
                     .into(imageViewFromFB)
-
             } else {
 
             }
@@ -210,3 +210,4 @@ class BoardInsideActivity : AppCompatActivity() {
     }
 
 }
+
