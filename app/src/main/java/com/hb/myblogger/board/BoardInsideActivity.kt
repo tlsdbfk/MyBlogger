@@ -1,8 +1,6 @@
 package com.hb.myblogger.board
 
-import android.content.ContentUris
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -90,11 +88,28 @@ class BoardInsideActivity : AppCompatActivity() {
                 }
                 //다른 앱으로 글 보내기
                 R.id.menu_blog -> {
-                    writeBlog()
+
+                    val clipboard: ClipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip = ClipData.newPlainText("label", "${binding.contentArea.text}\n\n${binding.hashArea.text}")
+                    clipboard.setPrimaryClip(clip)
+                    Toast.makeText(this, "텍스트가 클립보드에 복사되었습니다.", Toast.LENGTH_SHORT).show()
+
+                    val shareIntent: Intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        val bitmap = (binding.getImageArea.drawable as BitmapDrawable).bitmap
+                        putExtra(Intent.EXTRA_STREAM, getImageUri(getApplicationContext(), bitmap))
+                        type = "image/*"
+                        setPackage("com.nhn.android.blog")
+                    }
+                    startActivity(Intent.createChooser(shareIntent, null))
                     return@setOnMenuItemClickListener true
             }
                 R.id.menu_insta -> {
-                    //  이미지
+                    val clipboard: ClipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip = ClipData.newPlainText("label", "${binding.contentArea.text}\n\n${binding.hashArea.text}")
+                    clipboard.setPrimaryClip(clip)
+                    Toast.makeText(this, "텍스트가 클립보드에 복사되었습니다.", Toast.LENGTH_SHORT).show()
+
                     val shareIntent: Intent = Intent().apply {
                         action = Intent.ACTION_SEND
                         val bitmap = (binding.getImageArea.drawable as BitmapDrawable).bitmap
@@ -120,19 +135,14 @@ class BoardInsideActivity : AppCompatActivity() {
         val title = "${binding.titleArea.text}"
         val content = "${binding.contentArea.text}\n${binding.hashArea.text}"
         val imageUrls: MutableList<String> = ArrayList()
-
-        val imageURL = Firebase.storage.reference.child(key + ".png")
-
-//https://firebasestorage.googleapis.com/v0/b/my-blogger-3f4bc.appspot.com/o/-NAAmYStqPUP6Ea5v6cB.png?alt=media&token=4bcff3e8-8564-454f-816b-a00dfd6aed8a
-        print("here키값 $key\n")
-        imageUrls.add("https://firebasestorage.googleapis.com/v0/b/my-blogger-3f4bc.appspot.com/o/${key}.png?alt=media&token=4bcff3e8-8564-454f-816b-a00dfd6aed8a")
+        //print("here키값 $key\n")
+        //imageUrls.add("")
         val videoUrls: MutableList<String> = ArrayList()
         //videoUrls.add("http://tvcast.naver.com/v/791662")
         val ogTagUrls: MutableList<String> = ArrayList()
         //ogTagUrls.add("http://m.naver.com")
         val tags: MutableList<String> = ArrayList()
         tags.add("MyBlogger")
-        val ImgUri = picUri
         NaverBlog(this@BoardInsideActivity).write(
             version,
             title,
@@ -140,8 +150,7 @@ class BoardInsideActivity : AppCompatActivity() {
             imageUrls,
             videoUrls,
             ogTagUrls,
-            tags,
-            ImgUri
+             tags
         )
     }
 

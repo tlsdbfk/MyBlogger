@@ -33,11 +33,10 @@ class NaverBlog(private val context: Context) {
         imageUrls: List<String?>?,
         videoUrls: List<String?>?,
         ogTagUrls: List<String?>?,
-        tags: List<String?>?,
-        ImgUri:Uri?
+        tags: List<String?>?
     ) {
         val writeUri =
-            BlogUriBuilder.write(version, title, content, imageUrls, videoUrls, ogTagUrls, tags, ImgUri)
+            BlogUriBuilder.write(version, title, content, imageUrls, videoUrls, ogTagUrls, tags)
         //val writeIntent = Intent()
         //writeIntent.data = writeUri
         //writeIntent.putExtra(Intent.EXTRA_STREAM, ImgUri)
@@ -46,7 +45,6 @@ class NaverBlog(private val context: Context) {
             data = writeUri
 
         }
-        writeIntent.putExtra(Intent.EXTRA_STREAM, ImgUri)
         try {
             context.startActivity(writeIntent)
         } catch (e: ActivityNotFoundException) {
@@ -114,8 +112,7 @@ class NaverBlog(private val context: Context) {
             imageUrls: List<String?>?,
             videoUrls: List<String?>?,
             ogTagUrls: List<String?>?,
-            tags: List<String?>?,
-            ImgUri: Uri?
+            tags: List<String?>?
         ): Uri {
             val uriBuilder = Uri.Builder()
             uriBuilder.scheme(SCHEME_NAVERBLOG)
