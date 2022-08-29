@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.TextUtils.isEmpty
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -100,7 +101,8 @@ class BoardWriteActivity:AppCompatActivity() {
     private fun callTodoList() {
         progressON()
         mCallTodoList = RetrofitSetting.createBaseService(RetrofitPath::class.java).getCaption() // RetrofitAPI에서 Json객체 요청을 반환하는 메서드를 불러옵니다.
-        mCallTodoList.enqueue(mRetrofitCallback) // 콜백, 즉 응답들을 큐에 넣어 대기시켜놓습니다. 응답이 생기면 뱉어내는거죠.
+        mCallTodoList.enqueue(mRetrofitCallback)
+    // 콜백, 즉 응답들을 큐에 넣어 대기시켜놓습니다. 응답이 생기면 뱉어내는거죠.
     }
 
     //http요청을 보냈고 이건 응답을 받을 콜벡메서드
@@ -114,6 +116,14 @@ class BoardWriteActivity:AppCompatActivity() {
 
         override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
             val result = response.body()
+
+            Log.d(ContentValues.TAG,"$result 출력합니다")
+
+//            while (result.toString() == "{}"){
+//                callTodoList()
+//            }
+//            if (result.toString() == "{}")
+//                callTodoList()
             //?: "" null 일경우 ""로 대체!
             val caption = result?.get("result_caption_str")?.getAsString() ?: ""
             val subject = result?.get("result_caption_sub")?.getAsString() ?: ""
@@ -128,6 +138,9 @@ class BoardWriteActivity:AppCompatActivity() {
             val weather_rain = result?.get("weather_rain")?.getAsString() ?: ""
             val weather_ta = result?.get("weather_ta")?.getAsString() ?: ""
             progressOFF()
+
+//            if(caption != "")
+//                progressOFF()
             contentArea.setText( "$subject, $caption" )
             //PlaceEdit.setText("$geo0")
             HashtagArea.setText("$holiday $picture_date_ko $time_slot \n$weather_rain $weather_ta")
