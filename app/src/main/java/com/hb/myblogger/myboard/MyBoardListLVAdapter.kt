@@ -38,31 +38,17 @@ class MyBoardListLVAdapter(val boardList : MutableList<BoardModel>) : BaseAdapte
 
         if (view == null) {
 
-            view = LayoutInflater.from(parent?.context).inflate(R.layout.board_list_item, parent, false)
+            view = LayoutInflater.from(parent?.context).inflate(R.layout.board_list_item_my, parent, false)
 
         }
 
         val title = view?.findViewById<TextView>(R.id.titleArea)
         val content = view?.findViewById<TextView>(R.id.contentArea)
         val time = view?.findViewById<TextView>(R.id.timeArea)
-        val image = view?.findViewById<ImageView>(R.id.listImageArea)
 
         title!!.text = boardList[position].title
         content!!.text = boardList[position].content
         time!!.text = boardList[position].time
-
-        val imgName = boardList[position].key
-
-        val storageReference = Firebase.storage.reference.child(imgName + ".png")
-        storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
-            if(task.isSuccessful) {
-                Glide.with(view!!)
-                    .load(task.result)
-                    .into(image!!)
-            } else {
-
-            }
-        })
 
         return view!!
 
