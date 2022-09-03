@@ -55,14 +55,6 @@
                         android:layout_below="@id/idArea"
                         android:layout_marginTop="10dp" />
 
-                    <Button
-                        android:id="@+id/changePhoto"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/myId"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginTop="20dp"
-                        android:text="프로필 변경" />
 
 
                 </RelativeLayout>
