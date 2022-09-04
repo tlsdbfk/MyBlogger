@@ -148,7 +148,7 @@ class BoardWriteActivity:AppCompatActivity() {
             //getBtn.visibility = View.VISIBLE
             ErrorMessage.visibility = View.INVISIBLE
 
-            var spinner_data = listOf<String>("", "$geo0", "$geo1", "$geo2", "$geo3", "$geo4")
+            var spinner_data = listOf<String>("", "#$geo0", "#$geo1", "#$geo2", "#$geo3", "#$geo4")
 
             var spinner_adapter = ArrayAdapter(this@BoardWriteActivity, android.R.layout.simple_list_item_1, spinner_data)
 
