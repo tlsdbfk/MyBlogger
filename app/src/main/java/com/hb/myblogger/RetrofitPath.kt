@@ -16,6 +16,6 @@ interface RetrofitPath {
         @Part imageFile : MultipartBody.Part
     ): Call<String>
 
-    @GET("/")//서버에 GET요청을 할 주소를 입력
+    @GET("/result")//서버에 GET요청을 할 주소를 입력
     fun getCaption() : Call<JsonObject> //MainActivity에서 사용할 json파일 가져오는 메서드
 }

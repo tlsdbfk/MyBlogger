@@ -209,7 +209,6 @@ class BoardWriteActivity:AppCompatActivity() {
     }
 
 
-
     fun absolutelyPath(path: Uri?, context : Context): String {
         var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
         var c: Cursor? = context.contentResolver.query(path!!, proj, null, null, null)
