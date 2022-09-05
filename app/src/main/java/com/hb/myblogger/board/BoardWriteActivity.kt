@@ -12,7 +12,6 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.TextUtils.isEmpty
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -203,7 +202,10 @@ class BoardWriteActivity:AppCompatActivity() {
 
             Log.d(ContentValues.TAG,file.name)
 
-            sendImage(body)
+            val name = file.name
+
+            sendImage(body,name)
+
         }
 
     }
@@ -220,9 +222,9 @@ class BoardWriteActivity:AppCompatActivity() {
         return result!!
     }
 
-    fun sendImage(image : MultipartBody.Part) {
+    fun sendImage(image : MultipartBody.Part, name : String) {
         val service = RetrofitSetting.createBaseService(RetrofitPath::class.java) //레트로핏 통신 설정
-        val call = service.profileSend(image)!! //통신 API 패스 설정
+        val call = service.profileSend(image, name)!! //통신 API 패스 설정
 
         call.enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
