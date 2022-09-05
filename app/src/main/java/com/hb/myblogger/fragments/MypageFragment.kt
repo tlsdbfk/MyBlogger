@@ -42,7 +42,6 @@ class MypageFragment : Fragment() {
     private lateinit var binding : FragmentMypageBinding
     private val boardDataList = mutableListOf<BoardModel>()
     private val boardKeyList = mutableListOf<String>()
-
     private val TAG = MypageFragment::class.java.simpleName
     private lateinit var auth: FirebaseAuth
     private lateinit var myboardRVAdapter : MyBoardListLVAdapter
@@ -95,27 +94,27 @@ class MypageFragment : Fragment() {
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-
+                var count = 0
                 boardDataList.clear()
-
                 for (dataModel in dataSnapshot.children) {
 
                     Log.d(TAG, dataModel.toString())
-//                    dataModel.key
-
                     val item = dataModel.getValue(BoardModel::class.java)
-                    val storageReference = Firebase.storage.reference.child(dataModel.key.toString() + ".png")
 
                     //내가 쓴 글 모아보기
                     val myUid = FBAuth.getUid()
                     val writerUid = item?.uid
 
+
                     if(myUid.equals(writerUid)) {
                         boardDataList.add(item!!)
                         boardKeyList.add(dataModel.key.toString())
+                        count += 1
                     }
                     else{}
 
+                    //내가 쓴 글 개수
+                    binding.myCount.text = count.toString() + "개";
                 }
                 boardKeyList.reverse()
                 boardDataList.reverse()
