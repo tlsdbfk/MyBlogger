@@ -18,6 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:orientation="horizontal"
+                android:background="#e9fab9"
                 tools:ignore="MissingConstraints">
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -75,15 +76,6 @@
                 </RelativeLayout>
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_below="@id/myPage"
-                android:background="@color/mainColor"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="204dp"
-                tools:ignore="MissingConstraints"/>
 
             //내가 쓴 글 목록 부분
             <ScrollView
