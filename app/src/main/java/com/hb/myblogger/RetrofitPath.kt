@@ -8,13 +8,12 @@ import retrofit2.http.*
 
 interface RetrofitPath {
     @Multipart
-    @POST("/caption/{name}")
+    @POST("/caption")
     fun profileSend(
-        @Part imageFile: MultipartBody.Part,
-        @Path("name") name: String
+        @Part imageFile: MultipartBody.Part
     ): Call<String>
 
 
-    @GET("/caption/{name}")//서버에 GET요청을 할 주소를 입력
+    @GET("/caption")//서버에 GET요청을 할 주소를 입력
     fun getCaption() : Call<JsonObject> //MainActivity에서 사용할 json파일 가져오는 메서드
 }

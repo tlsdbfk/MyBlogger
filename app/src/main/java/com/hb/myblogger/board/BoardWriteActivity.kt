@@ -106,6 +106,7 @@ class BoardWriteActivity:AppCompatActivity() {
 
     //http요청을 보냈고 이건 응답을 받을 콜벡메서드
     private val mRetrofitCallback  = (object : retrofit2.Callback<JsonObject>{
+
         override fun onFailure(call: Call<JsonObject>, t: Throwable) {
             t.printStackTrace()
             Log.d(TAG, "에러입니다. => ${t.message.toString()}")
@@ -115,14 +116,9 @@ class BoardWriteActivity:AppCompatActivity() {
 
         override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
             val result = response.body()
-
+            progressOFF()
             Log.d(ContentValues.TAG,"$result 출력합니다")
 
-//            while (result.toString() == "{}"){
-//                callTodoList()
-//            }
-//            if (result.toString() == "{}")
-//                callTodoList()
             //?: "" null 일경우 ""로 대체!
             val caption = result?.get("result_caption_str")?.getAsString() ?: ""
             val subject = result?.get("result_caption_sub")?.getAsString() ?: ""
@@ -136,10 +132,7 @@ class BoardWriteActivity:AppCompatActivity() {
             val time_slot = result?.get("time_slot")?.getAsString() ?: ""
             val weather_rain = result?.get("weather_rain")?.getAsString() ?: ""
             val weather_ta = result?.get("weather_ta")?.getAsString() ?: ""
-            progressOFF()
 
-//            if(caption != "")
-//                progressOFF()
             contentArea.setText( "$subject, $caption" )
             //PlaceEdit.setText("$geo0")
             HashtagArea.setText("$holiday $picture_date_ko $time_slot \n$weather_rain $weather_ta")
@@ -204,7 +197,7 @@ class BoardWriteActivity:AppCompatActivity() {
 
             val name = file.name
 
-            sendImage(body,name)
+            sendImage(body)
 
         }
 
@@ -222,9 +215,9 @@ class BoardWriteActivity:AppCompatActivity() {
         return result!!
     }
 
-    fun sendImage(image : MultipartBody.Part, name : String) {
+    fun sendImage(image : MultipartBody.Part) {
         val service = RetrofitSetting.createBaseService(RetrofitPath::class.java) //레트로핏 통신 설정
-        val call = service.profileSend(image, name)!! //통신 API 패스 설정
+        val call = service.profileSend(image)!! //통신 API 패스 설정
 
         call.enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {

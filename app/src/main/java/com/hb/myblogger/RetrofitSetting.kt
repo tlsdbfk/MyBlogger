@@ -6,11 +6,17 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.util.concurrent.TimeUnit
 
 object RetrofitSetting {
-    val API_BASE_URL = "http://192.168.18.18:8080/"
-    val httpClient = OkHttpClient.Builder()
+    val API_BASE_URL = "http://172.20.10.4:8080/"
+    //val httpClient = OkHttpClient.Builder()
 
+    var httpClient = OkHttpClient().newBuilder()
+        .connectTimeout(30, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(30, TimeUnit.SECONDS)
+        .build()
     val baseBuilder = Retrofit.Builder()
         .baseUrl(API_BASE_URL)
         .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -18,7 +24,7 @@ object RetrofitSetting {
         .addConverterFactory(ScalarsConverterFactory.create())
 
     fun <S> createBaseService(serviceClass: Class<S>?): S {
-        val retrofit = baseBuilder.client(httpClient.build()).build()
+        val retrofit = baseBuilder.client(httpClient).build()
         return retrofit.create(serviceClass)
     }
 }
