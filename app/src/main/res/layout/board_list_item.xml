@@ -17,8 +17,8 @@
 
     <ImageView
         android:id="@+id/listImageArea"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"/>
 
@@ -26,6 +26,7 @@
         android:id="@+id/contentArea"
         android:text="content"
         android:textSize="15sp"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:textColor="@color/black"
