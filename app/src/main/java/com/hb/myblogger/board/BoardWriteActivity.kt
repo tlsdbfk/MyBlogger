@@ -120,8 +120,7 @@ class BoardWriteActivity:AppCompatActivity() {
             Log.d(ContentValues.TAG,"$result 출력합니다")
 
             //?: "" null 일경우 ""로 대체!
-            val caption = result?.get("result_caption_str")?.getAsString() ?: ""
-            val subject = result?.get("result_caption_sub")?.getAsString() ?: ""
+            val caption = result?.get("result_caption")?.getAsString() ?: ""
             val geo0 = result?.get("geo0")?.getAsString() ?: ""
             val geo1 = result?.get("geo1")?.getAsString() ?: ""
             val geo2 = result?.get("geo2")?.getAsString() ?: ""
@@ -133,8 +132,7 @@ class BoardWriteActivity:AppCompatActivity() {
             val weather_rain = result?.get("weather_rain")?.getAsString() ?: ""
             val weather_ta = result?.get("weather_ta")?.getAsString() ?: ""
 
-            contentArea.setText( "$subject, $caption" )
-            //PlaceEdit.setText("$geo0")
+            contentArea.setText( "$caption" )
             HashtagArea.setText("$holiday $picture_date_ko $time_slot \n$weather_rain $weather_ta")
 
             //getBtn.visibility = View.VISIBLE
