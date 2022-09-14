@@ -25,6 +25,4 @@ MyBlogger 앱은 블로그 사용자들의 편의를 위해 블로그 초안 작
 > Pytorch
 
 ## 
-
-![Screenshot_20220913141526](https://user-images.githubusercontent.com/80687212/190131988-b382ad6a-ed76-475e-9341-1a88c21adff6.jpg)
-![Screenshot_20220914143451](https://user-images.githubusercontent.com/80687212/190132021-bb0deb9a-f409-4a1f-937a-3cca9e61b094.jpg)
+![Screenshot_20220913141526](https://user-images.githubusercontent.com/80687212/190132450-1389d0e9-e513-4c73-a001-6c3c2a8327ce.jpg) ![Screenshot_20220914143451](https://user-images.githubusercontent.com/80687212/190132546-00bcd76e-2f61-4fc2-a581-2b045643cb20.jpg)
