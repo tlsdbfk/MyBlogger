@@ -1,4 +1,4 @@
-package com.hb.imageup
+package com.hb.myblogger
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

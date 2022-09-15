@@ -24,8 +24,8 @@ import androidx.databinding.DataBindingUtil
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.google.gson.JsonObject
-import com.hb.imageup.RetrofitPath
-import com.hb.imageup.RetrofitSetting
+import com.hb.myblogger.RetrofitPath
+import com.hb.myblogger.RetrofitSetting
 import com.hb.myblogger.R
 import com.hb.myblogger.databinding.ActivityBoardWriteBinding
 import com.hb.myblogger.utils.FBAuth
@@ -99,9 +99,8 @@ class BoardWriteActivity:AppCompatActivity() {
     //서버로부터 이미지 캡션 받아오기
     private fun callTodoList() {
         progressON()
-        mCallTodoList = RetrofitSetting.createBaseService(RetrofitPath::class.java).getCaption() // RetrofitAPI에서 Json객체 요청을 반환하는 메서드를 불러옵니다.
+        mCallTodoList = RetrofitSetting.createBaseService(RetrofitPath::class.java).getCaption()    // RetrofitAPI에서 Json객체 요청을 반환하는 메서드를 불러옵니다.
         mCallTodoList.enqueue(mRetrofitCallback)
-    // 콜백, 즉 응답들을 큐에 넣어 대기시켜놓습니다. 응답이 생기면 뱉어내는거죠.
     }
 
     //http요청을 보냈고 이건 응답을 받을 콜벡메서드
