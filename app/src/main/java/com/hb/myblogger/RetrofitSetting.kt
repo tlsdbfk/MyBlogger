@@ -9,7 +9,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitSetting {
-    val API_BASE_URL = "http://192.168.45.213:8080/"
+    val API_BASE_URL = "http://192.168.45.152:8080/"
     //val httpClient = OkHttpClient.Builder()
 
     //timeout 시간 늘려주기
